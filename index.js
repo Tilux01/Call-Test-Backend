@@ -20,8 +20,7 @@ const users = {};
 
 io.on('connection', (socket) => {
     console.log('User connected:', socket.id);
-    
-    // User registration
+
     socket.on('register', (username) => {
         users[username] = socket.id;
         socket.username = username;
@@ -35,7 +34,8 @@ io.on('connection', (socket) => {
             console.log(`Call from ${from} to ${to}`);
             io.to(toSocketId).emit('incoming-call', {
                 from,
-                offer
+                offer,
+                others
             });
         } else {
             socket.emit('user-unavailable', to);
@@ -48,7 +48,8 @@ io.on('connection', (socket) => {
         if (toSocketId) {
             io.to(toSocketId).emit('call-accepted', {
                 from,
-                answer
+                answer,
+                others
             });
         }
     });
