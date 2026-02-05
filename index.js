@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     });
     
     // Handle call request
-    socket.on('call-user', ({ to, offer, from }) => {
+    socket.on('call-user', ({ to, offer, from, others }) => {
         const toSocketId = users[to];
         if (toSocketId) {
             console.log(`Call from ${from} to ${to}`);
@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
     });
     
     // Handle call answer
-    socket.on('call-accepted', ({ to, answer, from }) => {
+    socket.on('call-accepted', ({ to, answer, from, others }) => {
         const toSocketId = users[to];
         if (toSocketId) {
             io.to(toSocketId).emit('call-accepted', {
@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3500;
 server.listen(PORT, () => {
     console.log(`Signaling server running on port ${PORT}`);
 });
