@@ -37,6 +37,7 @@ io.on('connection', (socket) => {
             io.to(toSocketId).emit('incoming-call', {
                 from,
                 offer,
+                channel,
                 others
             });
         } else {
