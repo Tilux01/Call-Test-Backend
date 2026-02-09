@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     });
     
     // Handle call request
-    socket.on('call-user', ({ to, offer, from, others }) => {
+    socket.on('call-user', ({ to, offer, from, channel, others }) => {
         const toSocketId = users[to];
         if (toSocketId) {
             console.log(`Call from ${from} to ${to}`);
