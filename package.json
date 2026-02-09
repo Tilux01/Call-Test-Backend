@@ -11,8 +11,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "agora-access-token": "^2.0.4",
     "agora-rtc-sdk-ng": "^4.24.2",
     "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "http": "^0.0.1-security",
     "socket.io": "^4.8.3",

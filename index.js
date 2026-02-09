@@ -2,6 +2,8 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
+const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
+
 
 const app = express();
 app.use(cors());
@@ -96,6 +98,39 @@ io.on('connection', (socket) => {
         }
     });
 });
+
+
+// agoraToken.js
+
+const APP_ID = process.env.AGORA_APP_ID;
+const APP_CERT = process.env.AGORA_APP_CERT;
+
+const getToken = (req, res) => {
+  const { channel, uid } = req.query;
+
+  if (!channel || !uid) {
+    return res.status(400).json({ error: "channel and uid required" });
+  }
+
+  const role = RtcRole.PUBLISHER;
+  const expireTime = 3600;
+  const currentTime = Math.floor(Date.now() / 1000);
+  const privilegeExpireTime = currentTime + expireTime;
+
+  const token = RtcTokenBuilder.buildTokenWithUid(
+    APP_ID,
+    APP_CERT,
+    channel,
+    Number(uid),
+    role,
+    privilegeExpireTime
+  );
+
+  res.json({ token });
+};
+
+app.get("/agora/token", getToken);
+
 
 const PORT = process.env.PORT || 3500;
 server.listen(PORT, () => {
